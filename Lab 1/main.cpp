@@ -4,6 +4,9 @@
 //header for SDL2 functionality
 #include <SDL.h>
 
+#include <SDL_opengl.h>
+#include <gl\GLU.h>
+
 //Global variables go here
 
 //Pointer to our SDL Windows
@@ -37,6 +40,43 @@ void CleanUp()
 
 }
 
+//Function to intialise OpenGL
+void initOpenGL()
+{
+	//Create OpenGL Context
+	glcontext = SDL_GL_CreateContext(window);
+	//something went wrong in creating the context, if it is still NULL
+	if (!glcontext)
+	{
+		std::cout << "Error Creating OpenGL Context" << SDL_GetError() <<
+		std::endl;
+	}
+
+	//Smooth shading 
+	glShadeModel(GL_SMOOTH);
+
+	//Clear the background to black
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+	//Clear the depth buffer to 1.0
+	glClearDepth(1.0f);
+
+	//Enable depth testing
+	glEnable(GL_DEPTH_TEST);
+
+	//The depth test to use
+	glDepthFunc(GL_LEQUAL);
+
+	//Turn on best perspective correction
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+}
+
+//Function to set/reset viewport
+void setViewport(int width, int height)
+{
+
+}
 //Main Method - Entry Point
 int main(int argc, char*arg[])
 {
