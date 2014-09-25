@@ -12,6 +12,10 @@
 //Pointer to our SDL Windows
 SDL_Window*window;
 
+//SDL GL Context
+SDL_GLContext glcontext = NULL;
+
+
 //Constants to control window creation
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
