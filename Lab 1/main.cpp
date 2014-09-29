@@ -39,6 +39,7 @@ void InitWindow(int width, int height, bool fullscreen)
 //Used to cleanup once we exit
 void CleanUp()
 {
+	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 
@@ -79,7 +80,33 @@ void initOpenGL()
 //Function to set/reset viewport
 void setViewport(int width, int height)
 {
+//screen ration
+	GLfloat ratio;
 
+	//make sure height is always above 0
+	if (height == 0)
+	{
+		height = 1;
+	}
+
+	//calculate screen ration
+	ratio = (GLfloat)width / (GLfloat)height;
+
+	// Setup viewport
+	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
+
+	//Change to project matrix mode
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	//Calculate perspective matrix, using glu library functions
+	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
+
+	//Switch to ModelView
+	glMatrixMode(GL_MODELVIEW);
+
+	//Reset using the Identity Matrix
+	glLoadIdentity();
 }
 //Main Method - Entry Point
 int main(int argc, char*arg[])
@@ -93,6 +120,12 @@ int main(int argc, char*arg[])
 	}
 
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
+
+	//Call our InitOpenGL Function
+	initOpenGL();
+
+	//Set our viewport
+	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	SDL_Event event;
 
