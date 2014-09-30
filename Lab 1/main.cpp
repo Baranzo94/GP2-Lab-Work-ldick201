@@ -19,8 +19,8 @@ SDL_Window*window;
 SDL_GLContext glcontext = NULL;
 
 float triangleData[] = { 0.0f, 1.0f, 0.0f,   //Top
--1.0f, -1.0f, 0.0f,  //Bottom Left
-1.0f, -1.0f, 0.0f }; // Bottom Righ
+						-1.0f, -1.0f, 0.0f,  //Bottom Left
+						1.0f, -1.0f, 0.0f }; // Bottom Righ
 
 
 //Constants to control window creation
@@ -165,8 +165,11 @@ void render()
 	//Translate
 	glTranslatef(0.0f, 0.0f,-6.0f);
 
+
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+
+	
 
 
 	//Switch to ModelView
@@ -177,6 +180,10 @@ void render()
 
 	//Translate to -5.0f on z-axis
 	glTranslatef(0.0f, 0.0f, -5.0f);
+
+	glTranslatef(2.0f, 0.0f, -6.0f);
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+	glLoadIdentity();
 
 	//Begin drawing triangles
 	//glBegin(GL_TRIANGLES);
