@@ -6,6 +6,7 @@
 #include <GL\glew.h>
 #include <SDL_opengl.h>
 #include <gl\GLU.h>
+#include "Vertex.h"
 
 
 //Global variables go here
@@ -18,9 +19,16 @@ SDL_Window*window;
 //SDL GL Context
 SDL_GLContext glcontext = NULL;
 
-float triangleData[] = { 0.0f, 1.0f, 0.0f,   //Top
-						-1.0f, -1.0f, 0.0f,  //Bottom Left
-						1.0f, -1.0f, 0.0f }; // Bottom Righ
+/*float triangleData[] = { 0.0f, 1.0f, 0.0f,   //Top
+-1.0f, -1.0f, 0.0f,  //Bottom Left
+1.0f, -1.0f, 0.0f }; // Bottom Righ
+*/
+Vertex triangleData[] = { { 0.0f, 1.0f, 0.0f,  //x,y,x
+1.0f, 0.0f, 0.0f, 1.0f }, //r,g,b,a
+{ -1.0f, -1.0f, 0.0f, //x,y,z
+0.0f, 1.0f, 0.0f, 1.0f }, //r,g,b,a
+{ 1.0f, -1.0f, 0.0f, //x,y,z
+0.0f, 0.0f, 1.0f, 1.0f } }; //r,g,b,a
 
 
 //Constants to control window creation
@@ -151,10 +159,17 @@ void render()
 	
 	//Establish its 3 coordinates per vertex with zero stride(space between elements
 	//in array and contain floating point numbers
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+	//the 3 parameter is now filled out, the pipeline needs to know the size of each vertex
+	glVertexPointer(3, GL_FLOAT,sizeof(Vertex), NULL);
+
+	//The last parameter basically says that the colours start 3 floats into each element of the array
+	glColorPointer(4, GL_FLOAT, sizeof(Vertex), (void**)(3 * sizeof(float)));
+
+	//Establish array contains vertices & colours
 	//Establish array contains vertices (not normals, colours, texture coords etc)
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
 
 	//Switch to ModelView
 	glMatrixMode(GL_MODELVIEW);
@@ -167,7 +182,7 @@ void render()
 
 
 	//Actually draw the triangle, giving the number of vertices provided
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / sizeof(Vertex));
 
 	
 
@@ -180,10 +195,6 @@ void render()
 
 	//Translate to -5.0f on z-axis
 	glTranslatef(0.0f, 0.0f, -5.0f);
-
-	glTranslatef(2.0f, 0.0f, -6.0f);
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(triangleData) / (3 * sizeof(float)));
-	glLoadIdentity();
 
 	//Begin drawing triangles
 	//glBegin(GL_TRIANGLES);
