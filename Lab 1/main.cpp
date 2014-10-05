@@ -177,6 +177,8 @@ void render()
 	//Reset using the Identity Matrix
 	glLoadIdentity();
 
+	//gluLookat(0.0, 0.0, 0.0, 0.0, 0.0, -1.0f, 0.0, 1.0, 0.0);
+
 	//Translate
 	glTranslatef(0.0f, 0.0f,-6.0f);
 
