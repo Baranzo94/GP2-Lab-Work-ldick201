@@ -126,6 +126,10 @@ void CleanUp()
 //Function to intialise OpenGL
 void initOpenGL()
 {
+	//Ask for version 3.2 of OpenGL
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	//Create OpenGL Context
 	glcontext = SDL_GL_CreateContext(window);
 	//something went wrong in creating the context, if it is still NULL
@@ -183,17 +187,7 @@ void setViewport(int width, int height)
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
 	//Change to project matrix mode
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
 
-	//Calculate perspective matrix, using glu library functions
-	gluPerspective(45.0f, ratio, 0.1f, 100.0f);
-
-	//Switch to ModelView
-	glMatrixMode(GL_MODELVIEW);
-
-	//Reset using the Identity Matrix
-	glLoadIdentity();
 }
 
 //Function to draw
@@ -211,43 +205,7 @@ void render()
 	//Same with the EBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
-	//Establish its 3 coordinates per vertex with zero stride(space between elements
-	//in array and contain floating point numbers
-
-	//the 3 parameter is now filled out, the pipeline needs to know the size of each vertex
-	glVertexPointer(3, GL_FLOAT,sizeof(Vertex), NULL);
-
-	//The last parameter basically says that the colours start 3 floats into each element of the array
-	glColorPointer(4, GL_FLOAT, sizeof(Vertex), (void**)(3 * sizeof(float)));
-
-	//Establish array contains vertices & colours
-	//Establish array contains vertices (not normals, colours, texture coords etc)
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	//Switch to ModelView
-	glMatrixMode(GL_MODELVIEW);
-
-	//Reset using the Identity Matrix
-	glLoadIdentity();
-
-	//Think this as a virtual camera
-	gluLookAt(0.0, 0.0, 0.0, 0.0, 0.0, -1.0f, 0.0, 1.0, 0.0);
-
-	//Translate
-	glTranslatef(0.0f, 0.0f,-6.0f);
-
-
 	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
-
-	//Switch to ModelView
-	glMatrixMode(GL_MODELVIEW);
-
-	//Reset using the Identity Matrix
-	glLoadIdentity();
-
-	//Translate to -5.0f on z-axis
-	glTranslatef(0.0f, 0.0f, -5.0f);
 
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
