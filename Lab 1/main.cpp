@@ -13,6 +13,8 @@
 
 GLuint triangleVBO;
 
+GLuint triangleEBO;
+
 //Pointer to our SDL Windows
 SDL_Window*window;
 
@@ -23,13 +25,55 @@ SDL_GLContext glcontext = NULL;
 -1.0f, -1.0f, 0.0f,  //Bottom Left
 1.0f, -1.0f, 0.0f }; // Bottom Righ
 */
-Vertex triangleData[] = { { 0.0f, 1.0f, 0.0f,  //x,y,x
+
+/*Vertex triangleData[] = { 
+	{ 0.0f, 1.0f, 0.0f,  //x,y,x
 1.0f, 0.0f, 0.0f, 1.0f }, //r,g,b,a
 { -1.0f, -1.0f, 0.0f, //x,y,z
 0.0f, 1.0f, 0.0f, 1.0f }, //r,g,b,a
 { 1.0f, -1.0f, 0.0f, //x,y,z
 0.0f, 0.0f, 1.0f, 1.0f } }; //r,g,b,a
+*/
 
+Vertex triangleData[] = {
+	//Front
+	{ -0.5f, 0.5f, 0.5f,
+	1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
+
+	{ -0.5f, -0.5f, 0.5f,
+	1.0f, 1.0f, 0.0f, 1.0f }, //Bottom Left
+
+	{ 0.5f, -0.5f, 0.5f,
+	0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+
+	{ 0.5f, 0.5f, 0.5f,
+	1.0f, 0.0f, 1.0f, 1.0f }, //Top Right
+
+	{ -0.5f, 0.5f, 0.5f,
+	1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
+
+	{ 0.5f, -0.5f, 0.5f,
+	0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right
+
+	//Back
+	{ -0.5f, 0.5f, -0.5f,
+	1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
+
+	{-0.5f,-0.5f,-0.5f,
+	1.0f,1.0f,0.0f,1.0f}, //Bottom Left
+
+	{0.5f,-0.5f,-0.5f,
+	0.0f,1.0f,1.0f,1.0f}, //Bottom Right
+
+	{0.5f,0.5f,-0.5f,
+	1.0f,0.0f,1.0f,1.0f}, //Top Right
+
+	{-0.5f, 0.5f,-0.5f,
+	1.0f, 0.0f, 1.0f,1.0f}, //Top Left
+
+	{0.5f,-0.5f,-0.5,
+	0.0f,1.0f,1.0f,1.0f}, //Bottom Right
+};
 
 //Constants to control window creation
 const int WINDOW_WIDTH = 640;
