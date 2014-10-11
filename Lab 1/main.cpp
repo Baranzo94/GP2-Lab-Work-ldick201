@@ -8,6 +8,15 @@
 #include <gl\GLU.h>
 #include "Vertex.h"
 
+#ifdef _DEBUG && WIN32
+const std::string ASSET_PATH = "./assets";
+#else
+const std::string ASSET_PATH = "assets";
+#endif
+
+const std::string SHADER_PATH = "/shaders";
+
+
 
 //Global variables go here
 
