@@ -30,4 +30,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\simpleVS.glsl" />
+    <None Include="assets\shaders\simpleFS.glsl" />
+  </ItemGroup>
 </Project>

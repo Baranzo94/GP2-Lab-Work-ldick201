@@ -24,6 +24,11 @@ GLuint triangleVBO;
 
 GLuint triangleEBO;
 
+GLuint VAO;
+
+//Shader Program
+GLuint shaderProgram = 0;
+
 
 //Pointer to our SDL Windows
 SDL_Window*window;
@@ -219,6 +224,17 @@ void render()
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
 
+}
+
+void createShader()
+{
+	GLuint vertexShaderProgram = 0;
+	std::string vspath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
+
+	GLuint fragmentShaderProgram = 0;
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
 }
 
 //Function to update game state
