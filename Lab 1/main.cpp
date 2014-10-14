@@ -36,8 +36,6 @@ GLuint triangleEBO;
 
 GLuint VAO;
 
-GLuint shaderProgram = 0;
-
 //Shader Program
 GLuint shaderProgram = 0;
 
@@ -134,6 +132,14 @@ void initGeometry()
 {
 
 	//Create buffer
+	glGenBuffers(1, &triangleVBO);
+	//Make the new VBO active
+	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	//Copy Vertex Data to VBO
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangleData),
+		triangleData, GL_STATIC_DRAW);
+
+	//Create buffer
 	glGenBuffers(1, &triangleEBO);
 
 	//Make the EBO active
@@ -142,17 +148,20 @@ void initGeometry()
 	//Copy Index data to the EBO
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices),
 		indices, GL_STATIC_DRAW);
+
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
 }
 //Used to cleanup once we exit
 void CleanUp()
 {
+	glDeleteVertexArrays(1, &VAO);
 	glDeleteProgram(shaderProgram);
-	SDL_GL_DeleteContext(glcontext);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteBuffers(1, &triangleVBO);
-
+SDL_GL_DeleteContext(glcontext);
+	SDL_DestroyWindow(window);
+	SDL_Quit();
 }
 
 //Function to intialise OpenGL
@@ -233,6 +242,10 @@ void render()
 
 	//Make the new VBO active. Repeat here as a sanity check (may have changed since intialisation)
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	//Same with the EBO
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+
+	glBindVertexArray(VAO);
 
 	glUseProgram(shaderProgram);
 
@@ -241,10 +254,9 @@ void render()
 	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 	//Tell the shader that 0 is the position element
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void**)sizeof(Vertex));
 
-	//Same with the EBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+
 
 	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 

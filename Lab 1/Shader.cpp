@@ -50,7 +50,7 @@ GLuint loadShaderFromFile(const std::string&filename, SHADER_TYPE shaderType)
 
 }
 
-	bool checkForComplierErrors(GLuint shaderProgram)
+bool checkForCompilerErrors(GLuint shaderProgram)
 	{
 		GLint isCompiled = 0;
 		glGetShaderiv(shaderProgram, GL_COMPILE_STATUS, &isCompiled);
@@ -61,6 +61,7 @@ GLuint loadShaderFromFile(const std::string&filename, SHADER_TYPE shaderType)
 
 			//The maxLength includes the NULL character
 			std::string infoLog;
+			infoLog.resize(maxLength);
 			glGetShaderInfoLog(shaderProgram, maxLength, &maxLength, &infoLog[0]);
 
 			std::cout << "Shader not compiled" << infoLog << std::endl;
