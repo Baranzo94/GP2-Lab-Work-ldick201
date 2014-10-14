@@ -220,6 +220,11 @@ void render()
 	//Make the new VBO active. Repeat here as a sanity check (may have changed since intialisation)
 	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
 
+	glUseProgram(shaderProgram);
+	//Tell the shader that 0 is the position element
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
 	//Same with the EBO
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
@@ -245,6 +250,7 @@ void createShader()
 	glAttachShader(shaderProgram, fragmentShaderProgram);
 	glLinkProgram(shaderProgram);
 	checkForLinkErrors(shaderProgram);
+	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
 
 	//now we can delte the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
