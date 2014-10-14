@@ -7,6 +7,7 @@
 #include <SDL_opengl.h>
 #include <gl\GLU.h>
 #include "Vertex.h"
+#include "Shader.h"
 
 #ifdef _DEBUG && WIN32
 const std::string ASSET_PATH = "./assets";
@@ -229,7 +230,7 @@ void render()
 void createShader()
 {
 	GLuint vertexShaderProgram = 0;
-	std::string vspath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
 	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
 
 	GLuint fragmentShaderProgram = 0;
