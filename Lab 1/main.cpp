@@ -27,6 +27,8 @@ GLuint triangleEBO;
 
 GLuint VAO;
 
+GLuint shaderProgram = 0;
+
 //Shader Program
 GLuint shaderProgram = 0;
 
@@ -130,6 +132,7 @@ void initGeometry()
 //Used to cleanup once we exit
 void CleanUp()
 {
+	glDeleteProgram(shaderProgram);
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -236,6 +239,17 @@ void createShader()
 	GLuint fragmentShaderProgram = 0;
 	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
+	
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShaderProgram);
+	glAttachShader(shaderProgram, fragmentShaderProgram);
+	glLinkProgram(shaderProgram);
+	checkForLinkErrors(shaderProgram);
+
+	//now we can delte the VS & FS Programs
+	glDeleteShader(vertexShaderProgram);
+	glDeleteShader(fragmentShaderProgram);
+
 }
 
 //Function to update game state
@@ -265,6 +279,8 @@ int main(int argc, char*arg[])
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	SDL_Event event;
+
+	createShader();
 
 	while (running)
 	{
