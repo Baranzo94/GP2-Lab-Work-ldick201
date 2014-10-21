@@ -5,9 +5,9 @@ GLuint loadTextureFromFile(const std::string& filename)
 	GLuint textureID = 0;
 	return textureID;
 
-	SDL_Surface *imageSurface = IMG_Load(filename.c_str());
+	SDL_Surface *surface = IMG_Load(filename.c_str());
 
-	if (!imageSurface)
+	if (!surface)
 	{
 		std::cout << "Can Load image" << filename << "" << IMG_GetError();
 		return textureID;
