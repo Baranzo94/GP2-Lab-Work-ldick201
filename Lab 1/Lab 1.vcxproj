@@ -91,6 +91,8 @@
   <ItemGroup>
     <None Include="assets\shaders\simpleFS.glsl" />
     <None Include="assets\shaders\simpleVS.glsl" />
+    <None Include="assets\shaders\textureFS.glsl" />
+    <None Include="assets\shaders\textureVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
