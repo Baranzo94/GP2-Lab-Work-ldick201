@@ -7,6 +7,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <string>
+#include "Component.h"
 
 class GameObject
 {
@@ -19,7 +20,7 @@ public:
 	void destroy();
 	const std::string& getName();
 	const std::string& setName();
-	//void Component(Component*component) addComponent();
+	void addComponent(Component*component);
 	//void toggleActive();
 	//bool isActive();
 
