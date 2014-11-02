@@ -21,6 +21,7 @@ public:
 	const std::string& getName();
 	const std::string& setName();
 	void addComponent(Component*component);
+	
 	//void toggleActive();
 	//bool isActive();
 
@@ -28,6 +29,8 @@ protected:
 	//std::string m_Type;
 	//bool m_Active;
 private:
+	const std::string m_Name;
+	vector<Component*>m_Components;
 };
 
 
