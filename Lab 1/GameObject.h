@@ -29,8 +29,9 @@ protected:
 	//std::string m_Type;
 	//bool m_Active;
 private:
+	std::vector<Component*> m_Components;
 	const std::string m_Name;
-	vector<Component*>m_Components;
+	
 };
 
 
