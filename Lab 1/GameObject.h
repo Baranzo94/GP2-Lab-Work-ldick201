@@ -7,6 +7,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <string>
+#include <vector>
 #include "Component.h"
 
 class GameObject
