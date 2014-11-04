@@ -13,25 +13,29 @@
 class GameObject
 {
 public:
+
 	GameObject();
 	~GameObject();
+
 	void init();
+
 	void update();
+
 	void render();
+
 	void destroy();
-	const std::string& getName();
-	const std::string& setName();
+
 	void addComponent(Component*component);
+	void setName(const std::string& name);
+	const std::string& getName();
 	
-	//void toggleActive();
-	//bool isActive();
+
 
 protected:
-	//std::string m_Type;
-	//bool m_Active;
+
 private:
 	std::vector<Component*> m_Components;
-	const std::string m_Name;
+	std::string m_Name;
 	
 };
 
