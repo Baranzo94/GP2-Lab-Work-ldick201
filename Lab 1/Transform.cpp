@@ -8,7 +8,7 @@ Transform::Transform()
 	m_model = mat4();
 }
 
-Transform::Transform()
+Transform::~Transform()
 {
 
 }
