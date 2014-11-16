@@ -52,12 +52,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2-2.0.3\include;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glew-1.11.0-win32\glew-1.11.0\lib\Release\Win32;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glew-1.11.0-win32\glew-1.11.0\include;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glm-0.9.5.4\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\include;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\include;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2-2.0.3\include;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glew-1.11.0-win32\glew-1.11.0\lib\Release\Win32;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glew-1.11.0-win32\glew-1.11.0\include;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glm-0.9.5.4\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glew-1.11.0-win32\glew-1.11.0\lib\Release\Win32;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2-2.0.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glew-1.11.0-win32\glew-1.11.0\lib\Release\Win32;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2-2.0.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
