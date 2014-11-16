@@ -26,6 +26,15 @@ const std::string ASSET_PATH = "assets";
 
 const std::string SHADER_PATH = "/shaders";
 
+//Our headers
+#include "Vertex.h"
+#include "Shader.h"
+#include "Texture.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "Mesh.h"
+#include "Material.h"
+#include "Camera.h"
 
 
 //Global variables go here
@@ -115,6 +124,9 @@ const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
 bool running = true;
 
+std::vector<GameObject*> displayList;
+GameObject * mainCamera;
+
 // Global functions
 void InitWindow(int width, int height, bool fullscreen)
 {
@@ -157,11 +169,11 @@ void initGeometry()
 //Used to cleanup once we exit
 void CleanUp()
 {
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteProgram(shaderProgram);
-	glDeleteBuffers(1, &triangleEBO);
-	glDeleteBuffers(1, &triangleVBO);
-SDL_GL_DeleteContext(glcontext);
+	//glDeleteVertexArrays(1, &VAO);
+	//glDeleteProgram(shaderProgram);
+	//glDeleteBuffers(1, &triangleEBO);
+	//glDeleteBuffers(1, &triangleVBO);
+	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
@@ -233,6 +245,43 @@ void setViewport(int width, int height)
 
 }
 
+void Initialise()
+{
+	mainCamera = new GameObject();
+	mainCamera->setName("MainCamera");
+	Transform *t = new Transform();
+	t->setPosition(0.0f, 0.0f, 10.0f);
+	mainCamera->setTransform(t);
+	Camera * c = new Camera();
+	c->setAspectRatio((float)(WINDOW_WIDTH / WINDOW_HEIGHT));
+	c->setFOV(45.0f);
+	c->setNearClip(0.1f);
+	c->setFarClip(1000.0f);
+	mainCamera->setCamera(c);
+	displayList.push_back(mainCamera);
+	GameObject * cube = new GameObject();
+	cube->setName("Cube");
+	Transform *transform = new Transform();
+	transform->setPosition(0.0f, 0.0f, 0.0f);
+	cube->setTransform(transform);
+	Material * material = new Material();
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	material->loadShader(vsPath, fsPath);
+	cube->setMaterial(material);
+	Mesh * mesh = new Mesh();
+	cube->setMesh(mesh);
+	displayList.push_back(cube);
+	//alternative sytanx
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->init();
+	}
+	mesh->copyVertexData(8, sizeof(Vertex), (void**)triangleData);
+	mesh->copyIndexData(36, sizeof(int), (void**)indices);
+}
+
+
 //Function to draw
 void render()
 {
@@ -243,26 +292,42 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Make the new VBO active. Repeat here as a sanity check (may have changed since intialisation)
-	glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+	//glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
 	//Same with the EBO
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
-	glBindVertexArray(VAO);
+	//glBindVertexArray(VAO);
 
-	glUseProgram(shaderProgram);
+	//glUseProgram(shaderProgram);
 
-	GLint MVPLocation = glGetUniformLocation(shaderProgram, "MVP");
-	mat4 MVP = projMatrix*viewMatrix*worldMatrix;
-	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+	//GLint MVPLocation = glGetUniformLocation(shaderProgram, "MVP");
+	//mat4 MVP = projMatrix*viewMatrix*worldMatrix;
+	//glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
 	//Tell the shader that 0 is the position element
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),NULL);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),NULL);
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
 
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->render();
+		Mesh * currentMesh = (*iter)->getMesh();
+		Transform * currentTransform = (*iter)->getTransform();
+		Material * currentMaterial = (*iter)->getMaterial();
+		if (currentMesh && currentMaterial && currentTransform)
+		{
+			currentMaterial->bind();
+			currentMesh->bind();
+			GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
+			Camera * cam = mainCamera->getCamera();
+			mat4 MVP = cam->getProjection()*cam->getView()*currentTransform->getModel();
+			glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+			glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
+		}
+	}
 
-
-	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
+	//glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, 0);
 
 	//require to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
@@ -295,11 +360,16 @@ void createShader()
 //Function to update game state
 void update()
 {
-	projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
+	//projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
 
-	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	//viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 
-	worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
+	//worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
+
+	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
+	{
+		(*iter)->update();
+	}
 }
 //Main Method - Entry Point
 int main(int argc, char*arg[])
