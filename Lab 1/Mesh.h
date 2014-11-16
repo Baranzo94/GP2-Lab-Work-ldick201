@@ -8,7 +8,7 @@
 #include <iostream>
 #include <string>
 
-class Mesh
+class Mesh:public Component
 {
 public:
 

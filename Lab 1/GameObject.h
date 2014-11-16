@@ -2,13 +2,14 @@
 
 #define GAMEOBJECT_H
 
-#include <GL/glew.h>
-#include <SDL_opengl.h>
-#include <SDL_image.h>
-#include <iostream>
 #include <string>
 #include <vector>
-#include "Component.h"
+
+class Component;
+class Mesh;
+class Material;
+class Camera;
+class Transform;
 
 class GameObject
 {
@@ -28,17 +29,30 @@ public:
 	void addComponent(Component*component);
 	void setName(const std::string& name);
 	const std::string& getName();
+
+	void setTransform(Transform * transform);
+	void setMesh(Mesh * mesh);
+	void setMaterial(Material * material);
+	void setCamera(Camera * camera);
+
+	Transform * getTransform();
+	Mesh *getMesh();
+	Material *getMaterial();
+	Camera * getCamera();
 	
-
-
 protected:
 
 private:
 	std::vector<Component*> m_Components;
 	std::string m_Name;
+
+	Transform *m_Transform;
+	Mesh *m_Mesh;
+	Material *m_Material;
+	Camera *m_Camera;
+
+
 	
 };
-
-
 
 #endif

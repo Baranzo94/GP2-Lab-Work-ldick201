@@ -15,7 +15,7 @@ using glm::vec3;
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-class Transform
+class Transform : public Component
 {
 public:
 	Transform();

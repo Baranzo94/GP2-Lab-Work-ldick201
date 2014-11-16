@@ -28,3 +28,14 @@ bool Component::isActive()
 {
 	return m_Active;
 }
+
+
+void Component::toggleActive()
+{
+	m_Active = !m_Active;
+}
+
+void Component::setParent(GameObject *object)
+{
+	m_Parent = object;
+}

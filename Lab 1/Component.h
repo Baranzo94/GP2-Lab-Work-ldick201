@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 
+class GameObject;
+
 class Component
 {
 public:
@@ -21,9 +23,12 @@ public:
 		void toggleActive();
 		bool isActive();
 
+		void setParent(GameObject * object);
+
 protected:
 		std::string m_Type;
 		bool m_Active;
+		GameObject * m_Parent;
 private:
 };
 
