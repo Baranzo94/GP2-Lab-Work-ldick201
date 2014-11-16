@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 
+#include "Component.h"
+
 #include <glm/glm.hpp>
 using glm::mat4;
 using glm::vec3;

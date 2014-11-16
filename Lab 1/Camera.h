@@ -8,6 +8,7 @@ using glm::vec3;
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 #include "Component.h"
 
 class Camera :public Component
@@ -19,12 +20,13 @@ public:
 	~Camera();
 
 	void update();
-	void setPosition(float x, float y, float z);
+	//void setPosition(float x, float y, float z);
 	void setLook(float x, float y, float z);
 	void setUp(float x, float y, float z);
 	void setNearClip(float near);
 	void setFarClip(float far);
 	void setFOV(float FOV);
+
 	void setAspectRatio(float ratio);
 
 	mat4& getView();

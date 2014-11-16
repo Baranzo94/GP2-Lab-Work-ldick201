@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "Transform.h"
 
+
+
 Camera::Camera()
 {
 	m_Type = "Camera";
