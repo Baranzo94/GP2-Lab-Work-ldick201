@@ -8,6 +8,8 @@
 #include <gl\GLU.h>
 #include "Vertex.h"
 #include "Shader.h"
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 //Maths headers
 #include <glm/glm.hpp>
@@ -169,6 +171,22 @@ void initGeometry()
 //Used to cleanup once we exit
 void CleanUp()
 {
+	auto iter = displayList.begin();
+	while (iter != displayList.end())
+	{
+		(*iter)->destroy();
+		if ((*iter))
+		{
+			delete (*iter);
+			(*iter) = NULL;
+			iter = displayList.erase(iter);
+		}
+		else
+		{
+			iter++;
+		}
+	}
+	displayList.clear();
 	//glDeleteVertexArrays(1, &VAO);
 	//glDeleteProgram(shaderProgram);
 	//glDeleteBuffers(1, &triangleEBO);
@@ -176,6 +194,8 @@ void CleanUp()
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+	IMG_Quit();
+	TTF_Quit();
 }
 
 //Function to intialise OpenGL
@@ -382,15 +402,27 @@ int main(int argc, char*arg[])
 		
 	}
 
+	int imageInitFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+	int returnInitFlags = IMG_Init(imageInitFlags);
+	if (((returnInitFlags)& (imageInitFlags)) != imageInitFlags) {
+		std::cout << "ERROR SDL_Image Init " << IMG_GetError() << std::endl;
+		// handle error
+	}
+	if (TTF_Init() == -1) {
+		std::cout << "TTF_Init: " << TTF_GetError();
+	}
+
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 
 	//Call our InitOpenGL Function
 	initOpenGL();
 	//Calling InitGeometry Function
-	initGeometry();
+	//initGeometry();
 
 	//Set our viewport
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	Initialise();
 
 	SDL_Event event;
 
