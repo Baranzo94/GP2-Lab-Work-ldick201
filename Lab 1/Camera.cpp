@@ -39,14 +39,14 @@ void Camera::setUp(float x, float y, float z)
 	m_Up = vec3(x, y, z);
 }
 
-void Camera::setNearClip(float near)
+void Camera::setNearClip(float clipNear)
 {
-	m_NearClip = near;
+	m_NearClip = clipNear;
 }
 
-void Camera::setFarClip(float far)
+void Camera::setFarClip(float clipFar)
 {
-	m_FarClip = far;
+	m_FarClip = clipFar;
 }
 
 void Camera::setFOV(float FOV)
