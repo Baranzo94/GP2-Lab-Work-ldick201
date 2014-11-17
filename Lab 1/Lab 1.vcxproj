@@ -58,7 +58,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_ttf-devel-2.0.12-VC\SDL2_ttf-2.0.12\lib\x86;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2_image-devel-2.0.0-VC\SDL2_image-2.0.0\lib\x86;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\glew-1.11.0-win32\glew-1.11.0\lib\Release\Win32;C:\Users\Liam\Documents\University\Year 3\Games Programming\Libaries\SDL2-2.0.3\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;opengl32.lib;glu32.lib;glew32.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
