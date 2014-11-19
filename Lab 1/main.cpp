@@ -55,6 +55,7 @@ mat4 viewMatrix;
 mat4 projMatrix;
 mat4 worldMatrix;
 
+GLuint texture = 0;
 
 //Pointer to our SDL Windows
 SDL_Window*window;
@@ -64,7 +65,16 @@ SDL_GLContext glcontext = NULL;
 
 Vertex triangleData[] = {
 
-	{ vec3(-0.5f, 0.5f, 0.0f), vec4(1.0f,0.0f,0.0f,1.0f) },
+	{ vec3(-0.5f, 0.5f, 0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Top Left
+	{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f, 1.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left
+	{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 0.0f, 1.0f, 1.0f) }, //Bottom Right
+	{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Top Right
+	//back
+	{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f, 0.0f), vec4(0.0f, 0.0f, 1.0f, 1.0f) },// Top Left
+	{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 0.0f, 0.0f, 1.0f) },// Bottom Left
+	{ vec3(0.5f, -0.5f, -0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 0.0f, 0.0f, 1.0f) }, //Bottom Right
+	{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(0.0f, 1.0f, 0.0f, 1.0f) }// Top Right
+	//{ vec3(-0.5f, 0.5f, 0.0f), vec4(1.0f,0.0f,0.0f,1.0f) },
 /*	//Front
 	{ -0.5f, 0.5f, 0.5f,
 	1.0f, 0.0f, 1.0f, 1.0f }, //Top Left
@@ -191,6 +201,7 @@ void CleanUp()
 	//glDeleteProgram(shaderProgram);
 	//glDeleteBuffers(1, &triangleEBO);
 	//glDeleteBuffers(1, &triangleVBO);
+	//glDeleteTextures(1,&texture);
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -306,7 +317,8 @@ void Initialise()
 void render()
 {
 	//Set the clear colour(background)
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearDepth(1.0f);
 
 	//Clear the colour and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -319,6 +331,10 @@ void render()
 	//glBindVertexArray(VAO);
 
 	//glUseProgram(shaderProgram);
+	//GLint texture0Location = glGetUniformLocation(shaderProgram,"texture0");
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, texture);
+	//glUniform1i(texture0Location,0);
 
 	//GLint MVPLocation = glGetUniformLocation(shaderProgram, "MVP");
 	//mat4 MVP = projMatrix*viewMatrix*worldMatrix;
@@ -327,7 +343,9 @@ void render()
 	//glEnableVertexAttribArray(0);
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),NULL);
 	//glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
+	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3)+sizeof(vec2)));
 
 	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
 	{
@@ -357,11 +375,11 @@ void render()
 void createShader()
 {
 	GLuint vertexShaderProgram = 0;
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/simpleVS.glsl";
+	std::string vsPath = ASSET_PATH + SHADER_PATH + "/textureVS.glsl";
 	vertexShaderProgram = loadShaderFromFile(vsPath, VERTEX_SHADER);
 
 	GLuint fragmentShaderProgram = 0;
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/simpleFS.glsl";
+	std::string fsPath = ASSET_PATH + SHADER_PATH + "/textureFS.glsl";
 	fragmentShaderProgram = loadShaderFromFile(fsPath, FRAGMENT_SHADER);
 	
 	shaderProgram = glCreateProgram();
@@ -370,6 +388,8 @@ void createShader()
 	glLinkProgram(shaderProgram);
 	checkForLinkErrors(shaderProgram);
 	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
+	glBindAttribLocation(shaderProgram, 1, "vertexTexCoords");
+	glBindAttribLocation(shaderProgram, 2, "vertexColour");
 
 	//now we can delte the VS & FS Programs
 	glDeleteShader(vertexShaderProgram);
@@ -390,6 +410,12 @@ void update()
 	{
 		(*iter)->update();
 	}
+}
+
+void createTexture()
+{
+	std::string texturePath = ASSET_PATH + "/texture.png";
+	texture = loadTextureFromFile(texturePath);
 }
 //Main Method - Entry Point
 int main(int argc, char*arg[])
