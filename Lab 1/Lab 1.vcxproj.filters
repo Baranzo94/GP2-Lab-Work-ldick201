@@ -42,6 +42,12 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FBXLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vertex.h">
@@ -71,11 +77,27 @@
     <ClInclude Include="Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FBXLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\simpleVS.glsl" />
     <None Include="assets\shaders\simpleFS.glsl" />
     <None Include="assets\shaders\textureFS.glsl" />
     <None Include="assets\shaders\textureVS.glsl" />
+    <None Include="ambientFS.glsl" />
+    <None Include="ambientVS.glsl" />
+    <None Include="diffuseFS.glsl" />
+    <None Include="diffuseVS.glsl" />
+    <None Include="specularFS.glsl" />
+    <None Include="specularVS.glsl" />
+    <None Include="vertexColourFS.glsl" />
+    <None Include="vertexColourVS.glsl" />
+    <None Include="vertexColourTextureFS.glsl" />
+    <None Include="vertexColourTextureVS.glsl" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "GameObject.h"
 
 Transform::Transform()
 {
@@ -24,6 +25,10 @@ void Transform::update()
 	mat4 rotation = rotationX*rotationY*rotationZ;
 
 	m_model = translate*rotation*scale;
+	if (m_Parent->getParent())
+	{
+		m_model = m_Parent->getParent()->getTransform()->getModel()*m_model;
+	}
 }
 
 void Transform::setPosition(float x, float y, float z)

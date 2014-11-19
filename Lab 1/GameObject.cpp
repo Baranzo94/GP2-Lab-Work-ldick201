@@ -4,6 +4,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Camera.h"
+#include "Light.h"
 
 GameObject::GameObject()
 {
@@ -12,6 +13,8 @@ GameObject::GameObject()
 	m_Mesh = NULL;
 	m_Material = NULL;
 	m_Camera = NULL;
+	m_Light = NULL;
+	m_Parent = NULL;
 }
 
 GameObject::~GameObject()
@@ -24,11 +27,21 @@ void GameObject::init()
 	{
 		(*iter)->init();
 	}
+
+	for (auto iter = m_Children.begin(); iter != m_Children.end(); iter++)
+	{
+		(*iter)->init();
+	}
 }
 
 void GameObject::update()
 {
 	for (auto iter = m_Components.begin(); iter != m_Components.end(); iter++)
+	{
+		(*iter)->update();
+	}
+
+	for (auto iter = m_Children.begin(); iter != m_Children.end(); iter++)
 	{
 		(*iter)->update();
 	}
@@ -40,6 +53,11 @@ void GameObject::render()
 	for (auto iter = m_Components.begin(); iter != m_Components.end(); iter++)
 	{
 		(*iter)->update();
+	}
+
+	for (auto iter = m_Children.begin(); iter != m_Children.end(); iter++)
+	{
+		(*iter)->render();
 	}
 
 }
@@ -60,7 +78,25 @@ void GameObject::destroy()
 		{
 			iter++;
 		}
+
 		m_Components.clear();
+
+		auto gameObjiter = m_Children.begin();
+		while (gameObjiter != m_Children.end())
+		{
+			(*gameObjiter)->destroy();
+			if ((*gameObjiter))
+			{
+				delete (*gameObjiter);
+				(*gameObjiter) = NULL;
+				gameObjiter = m_Children.erase(gameObjiter);
+			}
+			else
+			{
+				gameObjiter++;
+			}
+		}
+		m_Children.clear();
 	}
 }
 
@@ -116,4 +152,38 @@ Material * GameObject::getMaterial()
 Camera * GameObject::getCamera()
 {
 	return m_Camera;
+}
+
+Light * GameObject::getLight()
+{
+	return m_Light;
+}
+
+void GameObject::addChild(GameObject * obj)
+{
+	obj->setParent(this);
+	m_Children.push_back(obj);
+}
+
+void GameObject::setParent(GameObject *parent)
+{
+	m_Parent = parent;
+}
+
+GameObject *GameObject::getParent()
+{
+	return m_Parent;
+}
+
+int GameObject::getChildCount()
+{
+	return m_Children.size();
+}
+
+GameObject * GameObject::getChild(int index)
+{
+	if (index < m_Children.size())
+		return m_Children[index];
+	else
+		return NULL;
 }

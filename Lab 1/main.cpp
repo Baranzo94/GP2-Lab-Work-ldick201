@@ -22,11 +22,15 @@ using glm::vec3;
 
 #ifdef _DEBUG && WIN32
 const std::string ASSET_PATH = "./assets";
+const std::string SHADER_PATH = "/shaders";
+const std::string TEXTURE_PATH = "textures/";
+const std::string FONT_PATH = "/fonts";
 #else
 const std::string ASSET_PATH = "assets";
+const std::string SHADER_PATH = "/shaders";
 #endif
 
-const std::string SHADER_PATH = "/shaders";
+
 
 //Our headers
 #include "Vertex.h"
